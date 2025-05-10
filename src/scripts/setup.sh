@@ -49,6 +49,25 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
+# Erstelle virtuelle Python-Umgebung
+VENV_DIR="venv"
+echo -e "${YELLOW}Erstelle virtuelle Python-Umgebung in ${VENV_DIR}...${NC}"
+
+# Prüfe, ob python3-venv installiert ist
+if ! dpkg -l | grep -q python3-venv; then
+    echo -e "${YELLOW}python3-venv wird benötigt. Versuche es zu installieren...${NC}"
+    sudo apt-get update && sudo apt-get install -y python3-venv python3-full
+fi
+
+# Erstelle die virtuelle Umgebung, falls sie nicht existiert
+if [ ! -d "$VENV_DIR" ]; then
+    python3 -m venv "$VENV_DIR"
+fi
+
+# Aktiviere die virtuelle Umgebung
+source "$VENV_DIR/bin/activate"
+echo -e "${GREEN}Virtuelle Umgebung aktiviert.${NC}"
+
 # Erstelle benötigte Verzeichnisse
 echo -e "${YELLOW}Stelle Projektstruktur sicher...${NC}"
 mkdir -p workspace config scripts docker
@@ -87,7 +106,6 @@ fi
 
 # Speichere das Repository in der Git-Konfiguration
 echo -e "${YELLOW}Setze Repository als Standardwert...${NC}"
-# Die korrekte Methode: Eintrag in der .gitconfig hinzufügen
 git config --global --add github.repo "$github_repo"
 echo -e "${GREEN}Repository $github_repo konfiguriert!${NC}"
 
@@ -118,14 +136,15 @@ echo -e "${YELLOW}Konfiguriere GPT-CLI...${NC}"
 mkdir -p ~/.config/gpt-cli
 cp config/gpt.yml ~/.config/gpt-cli/
 
-# Installiere Python-Abhängigkeiten
+# Installiere Python-Abhängigkeiten in der virtuellen Umgebung
 echo -e "${YELLOW}Installiere Python-Abhängigkeiten...${NC}"
-pip3 install requests
+pip install --upgrade pip
+pip install requests
 
-# Prüfe, ob GPT-CLI installiert ist
+# Installiere GPT-CLI in der virtuellen Umgebung
 if ! command -v gpt &> /dev/null; then
     echo -e "${YELLOW}Installiere GPT-CLI...${NC}"
-    pip3 install gpt-command-line
+    pip install gpt-command-line
 fi
 
 # Starte Docker-Container
@@ -134,6 +153,10 @@ cd docker && docker-compose up -d
 cd ..
 
 echo -e "${GREEN}Setup erfolgreich abgeschlossen!${NC}"
+echo ""
+echo "Wichtig: Die virtuelle Umgebung wurde in ${VENV_DIR} erstellt."
+echo "Um die virtuelle Umgebung in Zukunft zu aktivieren, führe aus:"
+echo "  source ${VENV_DIR}/bin/activate"
 echo ""
 echo "Nächste Schritte:"
 echo "1. Greife auf die OpenHands GUI unter http://localhost:17243 zu"
