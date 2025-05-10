@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./docs/static/img/logo.png" alt="Logo" width="200">
-  <h1>EcoSphere Network Repository Template</h1>
-  <p>A modern, comprehensive template for creating new repositories within the EcoSphere Network ecosystem.</p>
+  <img src="https://api.placeholder.com/280x100?text=OpenHands+Workflow" alt="Logo" width="280">
+  <h1>OpenHands Workflow Integration</h1>
+  <p>A complete, automated workflow integrating OpenHands, gpt-cli, and GitHub CLI for test-driven development and autonomous code fixing.</p>
 
   [![Contributors][contributors-shield]][contributors-url]
   [![Stars][stars-shield]][stars-url]
@@ -12,9 +12,9 @@
   [![Documentation][docs-shield]][docs-url]
   [![Project Credits][credits-shield]][credits-url]
 
-  [Start Documentation](https://github.com/EcoSphereNetwork/ESN_Repo-Template/blob/main/docs/README.md) •
-  [Report Bug](https://github.com/EcoSphereNetwork/ESN_Repo-Template/issues) •
-  [Request Feature](https://github.com/EcoSphereNetwork/ESN_Repo-Template/issues)
+  [Getting Started](#-getting-started) •
+  [Report Bug](https://github.com/yourusername/openhands-workflow/issues) •
+  [Request Feature](https://github.com/yourusername/openhands-workflow/issues)
 </div>
 
 ## 📋 Table of Contents
@@ -30,143 +30,184 @@
 - [License](#-license)
 
 ## 🎯 About
-The EcoSphere Network Repository Template provides a standardized starting point for new projects, incorporating modern development practices, comprehensive workflows, and essential tooling. This template is designed to accelerate project setup while ensuring consistency across the *ESN* ecosystem.
+The OpenHands Workflow Integration provides a seamless, automated workflow between OpenHands AI, gpt-cli, and GitHub CLI. This system automatically tests code, creates issues for errors, leverages AI to generate fixes, creates pull requests, and verifies fixes - all with minimal human intervention.
 
-### Why Use This Template?
-- 🚀 **Quick Start**: Get your project running in minutes with pre-configured tooling
-- 🔄 **CI/CD Ready**: Comprehensive GitHub Actions workflows for testing, building, and deployment
-- 📊 **Quality Focused**: Built-in code quality tools and testing frameworks
-- 🛡️ **Security First**: Automated security scanning and best practices
-- 📚 **Well Documented**: Extensive documentation and examples
+### Why Use This Workflow?
+- 🚀 **Automation**: Reduce manual debugging time with AI-powered testing and fixing
+- 🧠 **AI-Powered**: Utilizes Claude 3.7 Sonnet for sophisticated code analysis and repair
+- 🔄 **Full Circle**: Complete test → error → fix → verify workflow
+- 🌐 **GUI and CLI**: Access OpenHands through both interface options
+- 🛠️ **Extensible**: Easily adapt to different projects and test frameworks
 
 ## ✨ Key Features
 
 ### Core Features
-- 🔧 **Project Structure**: Organized directory layout for various project types
-- 📝 **Documentation**: Docs and Wiki with Docusaurus and documentation templates
-- 🔄 **Workflows**: Reusable GitHub Actions for CI/CD
-- 🧪 **Testing**: Configured testing framework with examples
-- 🛡️ **Security**: Automated security scanning and best practices
+- 🔧 **Multi-Interface Control**: Use OpenHands via GUI (port 17243) or CLI
+- 🤖 **AI Integration**: Claude 3.7 Sonnet powered code fixing
+- 🔄 **Automated Testing**: Run tests and handle errors programmatically
+- 🐛 **Issue Management**: Automatic GitHub issue creation with detailed error context
+- ✅ **PR Verification**: Automatically check and approve fixed code
 
 ### Development Tools
-- 📊 **Code Quality**: Pre-configured linting and formatting
-- 🐳 **Docker Support**: Container configurations and build workflows
-- 🔄 **Dependency Management**: Automated updates and vulnerability scanning
-- 🧪 **Testing Framework**: Unit, integration, and end-to-end testing setup
+- 📊 **Docker Infrastructure**: Containerized environment for consistent execution
+- 🔧 **gpt-cli Integration**: Custom commands for easy workflow triggering
+- 🐙 **GitHub CLI Integration**: Streamlined repository interaction
+- 🧪 **Testing Framework**: Automatic test execution with npm
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Git
-- Python 3.9 or higher
-- Docker (optional)
+- Docker and Docker Compose
+- Python 3.6+ with pip
+- Node.js and npm
+- GitHub CLI (`gh`) installed and configured
+- gpt-cli installed
+- Anthropic API key for Claude 3.7 Sonnet
 
 ### Installation
 
-1. **Create a New Repository**
+1. **Clone the Repository**
 
    ```bash
-   gh repo create my-project --template EcoSphereNetwork/ESN-Repo-Template
+   git clone https://github.com/yourusername/openhands-workflow.git
+   cd openhands-workflow
    ```
 
-   or
+2. **Run the Setup Script**
 
    ```bash
-   git clone https://github.com/EcoSphereNetwork/ESN_Repo-Template.git my-project
+   chmod +x scripts/setup.sh
+   ./scripts/setup.sh
    ```
 
-2. **Create a separate directory for your actual project:**
+3. **Configure OpenHands**
+   
+   Access the OpenHands GUI at http://localhost:17243 and configure:
+   - GitHub token (Settings → Git Settings)
+   - Anthropic API key for Claude 3.7 Sonnet
+   - Default repository
 
+4. **Verify Installation**
    ```bash
-   mkdir my-actual-project
-   cd my-actual-project
-   ```
-
-3. **Run the initialization script from the cloned template:**
-
-   ```bash
-   ../my-project/scripts/init.sh
-   ```
-
-4. **Set Up Development Environment**
-   ```bash
-   poetry install  # Install dependencies
-   pre-commit install  # Set up git hooks
+   # Test gpt-cli integration
+   gpt run-tests
+   
+   # Verify container is running
+   docker ps | grep openhands-app
    ```
 
 ## 📁 Project Structure
 ```
-my-project/
-├── .github/                    # GitHub configurations and workflows
-├── docs/                       # Project documentation
-├── src/                        # Source code
-│   ├── core/                  # Core functionality
-│   ├── modules/               # Optional modules
-│   └── main.py               # Application entry point
-├── tests/                     # Test suite
-│   ├── unit/                 # Unit tests
-│   ├── integration/          # Integration tests
-│   └── e2e/                  # End-to-end tests
-├── scripts/                   # Development and deployment scripts
-├── .env.example              # Environment variables template
-├── pyproject.toml            # Project dependencies and configuration
+openhands-workflow/
+├── docker/                    # Docker configurations
+│   └── docker-compose.yml     # Container setup with custom port
+├── config/                    # Configuration files
+│   ├── openhands.toml        # OpenHands config with Claude 3.7
+│   └── github_config.sh      # GitHub CLI setup script
+├── scripts/                   # Workflow automation scripts
+│   ├── test_and_report.py    # Test runner and issue creator
+│   ├── check_pr.py           # PR verification script
+│   └── setup.sh              # Environment setup script
+├── gpt-cli/                   # gpt-cli configuration
+│   └── gpt.yml               # Custom commands configuration
+├── workspace/                 # Shared workspace for OpenHands
 └── README.md                 # Project documentation
 ```
 
 ## 💻 Development
 
 ### Setting Up for Development
-1. Install dependencies:
+1. Configure gpt-cli with workflow commands:
    ```bash
-   poetry install
+   cp gpt-cli/gpt.yml ~/.config/gpt-cli/
    ```
 
-2. Set up pre-commit hooks:
+2. Ensure all scripts are executable:
    ```bash
-   pre-commit install
+   chmod +x scripts/*.py scripts/*.sh
    ```
 
-3. Create environment file:
+3. Add your repositories to OpenHands:
    ```bash
-   cp .env.example .env
+   # Through the GUI at http://localhost:17243
+   # Settings → Git Settings → Add Repository
    ```
 
-### Code Quality Tools
-- **Formatting**: `poetry run black .`
-- **Linting**: `poetry run ruff check .`
-- **Type Checking**: `poetry run mypy .`
+### Command Reference
+- **Run Tests**: `gpt run-tests`
+- **Check PR**: `gpt check-pr <PR_NUMBER>`
+- **Manual API Call**: 
+  ```bash
+  curl -X POST http://localhost:17243/api/tasks \
+    -H "Content-Type: application/json" \
+    -d '{"command": "fix-test-errors", "context": {"issue_number": "123"}}'
+  ```
 
 ## 🧪 Testing
 
-### Running Tests
+### Automated Workflow
+The system performs these actions automatically:
+
+1. **Test Execution**:
+   ```bash
+   gpt run-tests
+   ```
+   
+2. **Issue Creation and AI Fix**:
+   - Creates GitHub issue with error details
+   - Labels with "fix-me"
+   - Triggers OpenHands to analyze and fix
+
+3. **PR Verification**:
+   ```bash
+   gpt check-pr <PR_NUMBER>
+   ```
+   - Runs tests on the PR branch
+   - Comments test results
+   - Approves PR if tests pass
+
+### Manual Testing
 ```bash
-# Run all tests
-poetry run pytest
+# Trigger just the tests
+npm run test
 
-# Run specific test types
-poetry run pytest tests/unit
-poetry run pytest tests/integration
-poetry run pytest tests/e2e
+# Create issue manually
+gh issue create --title "Test Failure" --body "Error details"
 
-# Run with coverage
-poetry run pytest --cov=src
+# Trigger OpenHands directly
+docker exec -it openhands-app poetry run python -m openhands.core.cli
 ```
 
 ## 🚢 Deployment
 
-### Using GitHub Actions
-1. Configure secrets in repository settings
-2. Push to trigger deployment workflow
-3. Monitor deployment in Actions tab
-
-### Manual Deployment
+### Docker Container Management
 ```bash
-./scripts/deploy.sh [environment]
+# Start containers
+cd docker && docker-compose up -d
+
+# Stop containers
+cd docker && docker-compose down
+
+# View logs
+docker logs openhands-app
+
+# Restart service
+docker restart openhands-app
 ```
+
+### Configuration Management
+- **Change OpenHands Port**:
+  Edit `docker/docker-compose.yml` and update the port mapping (currently 17243:3000)
+  
+- **Update LLM Model**:
+  Edit `config/openhands.toml` and change model parameters
+
+- **Add Custom Commands**:
+  Edit `~/.config/gpt-cli/gpt.yml` to add new workflow commands
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please follow these steps:
 
 1. Fork the repository
 2. Create your feature branch:
@@ -185,10 +226,10 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 💬 Support
 
-- [Issue Tracker](https://github.com/EcoSphereNetwork/ESN_Repo-Template.git/issues)
-- [Discussions](https://github.com/EcoSphereNetwork/ESN_Repo-Template.git/discussions)
-- [Discord Community][discord-url]
-- [Documentation][docs-url]
+- [Issue Tracker](https://github.com/yourusername/openhands-workflow/issues)
+- [Docker Hub](https://hub.docker.com/r/all-hands-ai/openhands)
+- [OpenHands Documentation](https://docs.all-hands.dev)
+- [gpt-cli Documentation](https://github.com/kharvd/gpt-cli)
 
 ## 📄 License
 
@@ -198,26 +239,37 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 <div align="center">
 
-### Repository Activity
+### Workflow Architecture
 
-[![Repository Activity][activity-graph]][activity-url]
+```
+[Docker Container]        [Host System]           [GitHub]
+ +-------------+         +-------------+         +-----------+
+ | OpenHands   |<------->| gpt-cli     |<------->| Issues    |
+ | GUI & CLI   |         | Test Runner |         | PRs       |
+ +-------------+         +-------------+         +-----------+
+      ^                        ^
+      |                        |
+      v                        v
+ +-------------+         +-------------+
+ | Claude 3.7  |         | Test Suite  |
+ | Sonnet      |         | npm run test|
+ +-------------+         +-------------+
+```
 
 </div>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[contributors-shield]: https://img.shields.io/github/contributors/EcoSphereNetwork/ESN_Repo-Template?style=for-the-badge&color=blue
-[contributors-url]: https://github.com/EcoSphereNetwork/ESN_Repo-Template/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/EcoSphereNetwork/ESN_Repo-Template?style=for-the-badge&color=blue
-[stars-url]: https://github.com/EcoSphereNetwork/ESN_Repo-Template/stargazers
-[coverage-shield]: https://img.shields.io/codecov/c/github/EcoSphereNetwork/ESN_Repo-Template?style=for-the-badge&color=blue
-[coverage-url]: https://codecov.io/github/EcoSphereNetwork/ESN_Repo-Template
-[license-shield]: https://img.shields.io/github/license/EcoSphereNetwork/ESN_Repo-Template?style=for-the-badge&color=blue
-[license-url]: https://github.com/EcoSphereNetwork/ESN_Repo-Template/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/yourusername/openhands-workflow?style=for-the-badge&color=blue
+[contributors-url]: https://github.com/yourusername/openhands-workflow/graphs/contributors
+[stars-shield]: https://img.shields.io/github/stars/yourusername/openhands-workflow?style=for-the-badge&color=blue
+[stars-url]: https://github.com/yourusername/openhands-workflow/stargazers
+[coverage-shield]: https://img.shields.io/badge/coverage-80%25-green?style=for-the-badge&color=blue
+[coverage-url]: #
+[license-shield]: https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&color=blue
+[license-url]: LICENSE
 [discord-shield]: https://img.shields.io/badge/Discord-Join%20Us-purple?logo=discord&logoColor=white&style=for-the-badge
-[discord-url]: https://discord.gg/cTWBHGkn
+[discord-url]: https://discord.gg/all-hands-ai
 [docs-shield]: https://img.shields.io/badge/Documentation-000?logo=googledocs&logoColor=FFE165&style=for-the-badge
-[docs-url]: https://github.com/EcoSphereNetwork/ESN_Repo-Template/wiki
+[docs-url]: https://docs.all-hands.dev
 [credits-shield]: https://img.shields.io/badge/Project-Credits-blue?style=for-the-badge&color=FFE165&logo=github&logoColor=white
-[credits-url]: https://github.com/EcoSphereNetwork/ESN_Repo-Template/blob/main/CREDITS.md
-[activity-graph]: https://repobeats.axiom.co/api/embed/8d1a53c73cf5523d0e52a6cc5b74bce75eecc801.svg
-[activity-url]: https://repobeats.axiom.co
+[credits-url]: #
