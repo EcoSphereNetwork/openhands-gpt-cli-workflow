@@ -1,0 +1,29 @@
+[api]
+host = "0.0.0.0"
+port = 3000
+
+[github]
+enabled = true
+# Token wird über die GUI konfiguriert
+
+[llm]
+provider = "openai"
+model = "gpt-4"
+
+[llm.providers.openai]
+api_base = "https://api.openai.com/v1"
+# API-Schlüssel wird über die GUI konfiguriert
+
+[docker]
+enabled = true
+socket_path = "/var/run/docker.sock"
+
+[network]
+api_base = "http://ai-net"
+
+[webhooks]
+github_issues = true
+github_pr = true
+
+[workspace]
+path = "/app/workspace"
