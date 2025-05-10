@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  openhands-app:
+    image: docker.all-hands.dev/all-hands-ai/openhands:0.13
+    container_name: openhands-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../workspace:/app/workspace
+      - ../config/openhands.toml:/root/.openhands/config.toml
+    networks:
+      - ai-net
+
+networks:
+  ai-net:
+    driver: bridge
