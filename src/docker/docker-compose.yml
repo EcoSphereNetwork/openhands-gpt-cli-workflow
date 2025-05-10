@@ -1,18 +1,38 @@
-version: '3'
+version: '3.8'
 
 services:
-  openhands-app:
-    image: docker.all-hands.dev/all-hands-ai/openhands:0.13
-    container_name: openhands-app
+  openhands:
+    image: docker.all-hands.dev/all-hands-ai/openhands:latest
+    container_name: openhands-gui
     ports:
-      - "17243:3000"  # Untypischer Port 17243 nach außen, intern bleibt 3000
+      - "3000:3000"  # GUI mode on port 3000
+      - "17243:17243"  # API port
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../workspace:/app/workspace
       - ../config/openhands.toml:/root/.openhands/config.toml
+      - ../config/github_token.txt:/root/.openhands/github_token.txt
+    environment:
+      - OPENHANDS_GUI_MODE=true
+      - OPENHANDS_API_PORT=17243
+      - OPENHANDS_WORKSPACE_PATH=/app/workspace
     networks:
-      - ai-net
+      - integration-network
+
+  # Optional: Add a service for running tests if needed
+  test-runner:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.test-runner
+    container_name: test-runner
+    volumes:
+      - ../workspace:/workspace
+      - ../scripts:/scripts
+    depends_on:
+      - openhands
+    networks:
+      - integration-network
 
 networks:
-  ai-net:
+  integration-network:
     driver: bridge

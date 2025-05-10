@@ -1,0 +1,48 @@
+# GPT-CLI Configuration
+assistants:
+  openhands-integration:
+    model: gpt-4
+    temperature: 0.2
+    messages:
+      - role: system
+        content: |
+          You are an AI assistant specialized in repository testing and issue automation.
+          Your tasks include:
+          1. Running tests on repositories
+          2. Analyzing test failures
+          3. Creating GitHub issues for failures
+          4. Triggering OpenHands to fix issues
+          5. Verifying fixes
+
+commands:
+  run-tests:
+    description: Run tests on a repository and handle failures
+    command: python {scripts_dir}/test_and_report.py {arguments}
+
+  check-pr:
+    description: Check a pull request for test failures
+    command: python {scripts_dir}/check_pr.py {arguments}
+
+  fix-issue:
+    description: Trigger OpenHands to fix an issue
+    command: python {scripts_dir}/fix_issue.py {arguments}
+
+  verify-fix:
+    description: Verify a fix implemented by OpenHands
+    command: python {scripts_dir}/verify_fix.py {arguments}
+    
+  dev-server:
+    description: Install and manage Dev-Server-Workflow
+    command: python {scripts_dir}/dev_server_installer.py {arguments}
+    
+  dev-server-cli:
+    description: Run Dev-Server CLI commands
+    command: python {scripts_dir}/dev_server_cli_wrapper.py {arguments}
+    
+  integrate-dev-server:
+    description: Integrate Dev-Server-Workflow with OpenHands and GPT-CLI
+    command: python {scripts_dir}/integrate_dev_server.py {arguments}
+    
+  workflow-loop:
+    description: Start the workflow loop between OpenHands, GPT-CLI, and Dev-Server-Workflow
+    command: {scripts_dir}/start_workflow_loop.sh {arguments}
