@@ -1,17 +1,17 @@
 [api]
 host = "0.0.0.0"
-port = 3000
+port = 3000  # Interner Port bleibt 3000
 
 [github]
 enabled = true
 # Token wird über die GUI konfiguriert
 
 [llm]
-provider = "openai"
-model = "gpt-4"
+provider = "anthropic"
+model = "claude-3-7-sonnet-20250219"
 
-[llm.providers.openai]
-api_base = "https://api.openai.com/v1"
+[llm.providers.anthropic]
+api_base = "https://api.anthropic.com/v1"
 # API-Schlüssel wird über die GUI konfiguriert
 
 [docker]
