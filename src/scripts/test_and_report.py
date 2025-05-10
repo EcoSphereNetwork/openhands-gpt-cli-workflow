@@ -16,7 +16,7 @@ import argparse
 from pathlib import Path
 
 # Constants
-OPENHANDS_API_URL = "http://localhost:17243/api/tasks"
+OPENHANDS_API_URL = "http://localhost:17244/api/tasks"
 GITHUB_LABEL = "fix-me"
 
 

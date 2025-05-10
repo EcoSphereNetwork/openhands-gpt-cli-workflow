@@ -37,7 +37,7 @@ echo -e "${YELLOW}Warte, bis OpenHands bereit ist...${NC}"
 MAX_RETRIES=30
 RETRY_COUNT=0
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-    if curl -s http://localhost:17243/api/status > /dev/null; then
+    if curl -s http://localhost:17244/api/status > /dev/null; then
         echo -e "${GREEN}OpenHands ist bereit!${NC}"
         break
     fi
@@ -58,8 +58,8 @@ make test
 # Gib Erfolgsmeldung aus
 echo -e "${GREEN}Integration lauft erfolgreich!${NC}"
 echo ""
-echo "OpenHands GUI: http://localhost:3000"
-echo "OpenHands API: http://localhost:17243"
+echo "OpenHands GUI: http://localhost:17243"
+echo "OpenHands API: http://localhost:17244"
 echo ""
 echo "Verfugbare Befehle:"
 echo "  gpt run-tests --repo-path /pfad/zum/repository"

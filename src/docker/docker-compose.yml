@@ -5,8 +5,8 @@ services:
     image: docker.all-hands.dev/all-hands-ai/openhands:latest
     container_name: openhands-gui
     ports:
-      - "3000:3000"  # GUI mode on port 3000
-      - "17243:17243"  # API port
+      - "17243:3000"  # GUI mode on port 17243 (mapped from internal 3000)
+      - "17244:17243"  # API port on 17244 (mapped from internal 17243)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../workspace:/app/workspace
@@ -14,7 +14,7 @@ services:
       - ../config/github_token.txt:/root/.openhands/github_token.txt
     environment:
       - OPENHANDS_GUI_MODE=true
-      - OPENHANDS_API_PORT=17243
+      - OPENHANDS_API_PORT=17244
       - OPENHANDS_WORKSPACE_PATH=/app/workspace
     networks:
       - integration-network

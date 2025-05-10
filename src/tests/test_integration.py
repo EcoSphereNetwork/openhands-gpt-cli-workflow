@@ -86,7 +86,7 @@ class TestIntegration(unittest.TestCase):
     def test_openhands_api_accessible(self):
         """Test that OpenHands API is accessible."""
         try:
-            response = requests.get("http://localhost:17243/api/status")
+            response = requests.get("http://localhost:17244/api/status")
             self.assertEqual(response.status_code, 200)
             print("OpenHands API is accessible")
         except Exception as e:

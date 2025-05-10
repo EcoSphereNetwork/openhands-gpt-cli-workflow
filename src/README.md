@@ -4,8 +4,8 @@ Diese Integration verbindet OpenHands mit GPT-CLI und dem Dev-Server-Workflow, u
 
 ## Funktionen
 
-- OpenHands im GUI-Modus (Port 3000) in einem Docker-Container ausführen
-- OpenHands über die API (Port 17243) steuern
+- OpenHands im GUI-Modus (Port 17243) in einem Docker-Container ausführen
+- OpenHands über die API (Port 17244) steuern
 - GPT-CLI verwenden, um Tests auf Repositories auszuführen
 - Automatisch GitHub-Issues für Testfehler erstellen
 - OpenHands auslösen, um Issues zu beheben
@@ -37,7 +37,7 @@ Die Integration besteht aus folgenden Komponenten:
    ```
 
 2. Konfiguriere OpenHands:
-   - Greife auf die OpenHands GUI unter http://localhost:3000 zu
+   - Greife auf die OpenHands GUI unter http://localhost:17243 zu
    - Gehe zu Einstellungen → API-Schlüssel und füge deine API-Schlüssel hinzu
    - Gehe zu Einstellungen → Git-Einstellungen und füge deinen GitHub-Token hinzu
 

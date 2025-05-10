@@ -122,7 +122,7 @@ cd ..
 echo -e "${GREEN}Setup erfolgreich abgeschlossen!${NC}"
 echo ""
 echo "Nächste Schritte:"
-echo "1. Greife auf die OpenHands GUI unter http://localhost:3000 zu"
+echo "1. Greife auf die OpenHands GUI unter http://localhost:17243 zu"
 echo "2. In der OpenHands GUI, konfiguriere API-Schlüssel (Einstellungen → API-Schlüssel)"
 echo "3. Führe Tests aus mit: gpt run-tests --repo-path /pfad/zum/repo"
 echo "4. Überprüfe PRs mit: gpt check-pr <PR_NUMMER> --repo-path /pfad/zum/repo"
