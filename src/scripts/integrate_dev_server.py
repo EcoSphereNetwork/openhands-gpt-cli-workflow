@@ -24,7 +24,7 @@ logger = logging.getLogger("integrate-dev-server")
 # Constants
 DEV_SERVER_DIR = os.path.expanduser("~/Dev-Server-Workflow")
 OPENHANDS_WORKSPACE = os.path.expanduser("~/openhands-workspace")
-OPENHANDS_API_URL = "http://localhost:17243/api/tasks"
+OPENHANDS_API_URL = "http://localhost:17244/api/tasks"
 
 
 def parse_args():

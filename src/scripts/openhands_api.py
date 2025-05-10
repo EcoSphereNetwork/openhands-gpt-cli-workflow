@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional, List, Union
 class OpenHandsAPI:
     """Python wrapper for the OpenHands API."""
 
-    def __init__(self, base_url: str = "http://localhost:17243"):
+    def __init__(self, base_url: str = "http://localhost:17244"):
         """Initialize the OpenHands API wrapper.
 
         Args:

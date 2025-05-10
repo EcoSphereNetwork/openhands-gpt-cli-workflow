@@ -31,7 +31,7 @@ logger = logging.getLogger("workflow-loop")
 
 # Constants
 DEV_SERVER_DIR = os.path.expanduser("~/Dev-Server-Workflow")
-OPENHANDS_API_URL = "http://localhost:17243/api/tasks"
+OPENHANDS_API_URL = "http://localhost:17244/api/tasks"
 CHECK_INTERVAL = 300  # 5 minutes
 MAX_RETRIES = 3
 

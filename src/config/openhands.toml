@@ -1,6 +1,6 @@
 [api]
 host = "0.0.0.0"
-port = 17243
+port = 17244
 
 [gui]
 enabled = true

@@ -42,7 +42,7 @@ status:
 	@docker ps --filter "name=openhands-gui"
 	@echo ""
 	@echo "Prufe OpenHands API-Status..."
-	@curl -s http://localhost:17243/api/status || echo "OpenHands API nicht erreichbar"
+	@curl -s http://localhost:17244/api/status || echo "OpenHands API nicht erreichbar"
 
 # Integrationstests ausfuhren
 test:

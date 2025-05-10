@@ -264,14 +264,14 @@ def integrate_with_openhands(install_dir):
     # Check if OpenHands is running
     try:
         import requests
-        response = requests.get("http://localhost:17243/api/status")
+        response = requests.get("http://localhost:17244/api/status")
         if response.status_code == 200:
             logger.info("OpenHands is running")
         else:
             logger.warning("OpenHands API returned non-200 status code")
     except Exception:
         logger.warning("OpenHands API not accessible")
-        logger.info("Make sure OpenHands is running on port 17243")
+        logger.info("Make sure OpenHands is running on port 17244")
     
     # Create integration directory in OpenHands workspace
     openhands_workspace = os.path.expanduser("~/openhands-workspace")
