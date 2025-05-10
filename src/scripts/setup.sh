@@ -58,24 +58,38 @@ echo -e "${YELLOW}Mache Skripte ausführbar...${NC}"
 chmod +x scripts/*.py
 chmod +x scripts/*.sh
 
-# Richte GitHub CLI ein
-echo -e "${YELLOW}Richte GitHub CLI ein...${NC}"
+# GitHub Authentifizierung und Konfiguration
+echo -e "${YELLOW}Prüfe GitHub Authentifizierung...${NC}"
 if ! gh auth status &> /dev/null; then
-    echo "Bitte authentifiziere dich bei GitHub:"
-    gh auth login
-else
-    echo "GitHub CLI bereits authentifiziert."
+    echo -e "${YELLOW}Du musst dich bei GitHub authentifizieren.${NC}"
+    echo -e "Bitte authentifiziere dich mit einem der folgenden Befehle:"
+    echo -e "  ${GREEN}gh auth login${NC} - Interaktive Anmeldung"
+    echo -e "  ${GREEN}gh auth login --with-token < token.txt${NC} - Anmeldung mit Token aus Datei"
+    
+    read -p "Möchtest du jetzt die interaktive Anmeldung starten? (j/n): " start_auth
+    if [[ "$start_auth" == "j" ]]; then
+        gh auth login
+    else
+        echo -e "${YELLOW}Bitte führe die Authentifizierung manuell durch und starte das Setup erneut.${NC}"
+        exit 1
+    fi
 fi
+echo -e "${GREEN}GitHub Authentifizierung erfolgreich!${NC}"
 
-# Konfiguriere GitHub CLI
-echo -e "${YELLOW}Konfiguriere GitHub CLI...${NC}"
+# Konfiguriere GitHub Repository
+echo -e "${YELLOW}Konfiguriere GitHub Repository...${NC}"
 if [ -z "$GITHUB_REPOSITORY" ]; then
     read -p "Gib das GitHub-Repository ein (z.B. benutzername/repo): " github_repo
 else
     github_repo="$GITHUB_REPOSITORY"
     echo "Verwende Repository aus .env: $github_repo"
 fi
-gh repo set-default "$github_repo"
+
+# Speichere das Repository in der Git-Konfiguration
+echo -e "${YELLOW}Setze Repository als Standardwert...${NC}"
+# Die korrekte Methode: Eintrag in der .gitconfig hinzufügen
+git config --global --add github.repo "$github_repo"
+echo -e "${GREEN}Repository $github_repo konfiguriert!${NC}"
 
 # Erstelle GitHub-Token falls nötig
 if [ ! -s "config/github_token.txt" ] || grep -q "GITHUB_TOKEN" "config/github_token.txt"; then
