@@ -1,0 +1,21 @@
+# ~/.config/gpt-cli/gpt.yml
+assistants:
+  openhands-integration:
+    model: gpt-4
+    temperature: 0.2
+    messages:
+      - role: system
+        content: |
+          Handle OpenHands integration:
+          1. Execute local tests via `npm run test`
+          2. On failure: Create GitHub issue
+          3. Trigger OpenHands via API
+
+commands:
+  run-tests:
+    description: Run tests and handle errors
+    command: python {scripts_dir}/test_and_report.py
+    
+  check-pr:
+    description: Check pull request for test failures
+    command: python {scripts_dir}/check_pr.py {arguments}
