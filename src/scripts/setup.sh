@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# OpenHands Workflow Setup Script
+# OpenHands + GPT-CLI Integration Setup Script
 # Exit on error
 set -e
 
@@ -10,78 +10,125 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}OpenHands Workflow Setup${NC}"
-echo "=============================="
+echo -e "${GREEN}OpenHands + GPT-CLI Integration Setup${NC}"
+echo "========================================"
 
-# Check prerequisites
-echo -e "${YELLOW}Checking prerequisites...${NC}"
+# Wechsle zum Hauptverzeichnis des Projekts
+cd "$(dirname "$0")/.."
 
-# Check Docker
+# Lade Umgebungsvariablen
+if [ -f .env ]; then
+    echo -e "${YELLOW}Lade Umgebungsvariablen...${NC}"
+    export $(grep -v '^#' .env | xargs)
+fi
+
+# Prüfe Voraussetzungen
+echo -e "${YELLOW}Prüfe Voraussetzungen...${NC}"
+
+# Prüfe Docker
 if ! command -v docker &> /dev/null; then
-    echo -e "${RED}Docker not found. Please install Docker.${NC}"
+    echo -e "${RED}Docker nicht gefunden. Bitte installiere Docker.${NC}"
     exit 1
 fi
 
-# Check Docker Compose
+# Prüfe Docker Compose
 if ! command -v docker-compose &> /dev/null; then
-    echo -e "${RED}Docker Compose not found. Please install Docker Compose.${NC}"
+    echo -e "${RED}Docker Compose nicht gefunden. Bitte installiere Docker Compose.${NC}"
     exit 1
 fi
 
-# Check GitHub CLI
+# Prüfe GitHub CLI
 if ! command -v gh &> /dev/null; then
-    echo -e "${RED}GitHub CLI not found. Please install GitHub CLI.${NC}"
+    echo -e "${RED}GitHub CLI nicht gefunden. Bitte installiere GitHub CLI.${NC}"
     exit 1
 fi
 
-# Check Python
+# Prüfe Python
 if ! command -v python3 &> /dev/null; then
-    echo -e "${RED}Python 3 not found. Please install Python 3.${NC}"
+    echo -e "${RED}Python 3 nicht gefunden. Bitte installiere Python 3.${NC}"
     exit 1
 fi
 
-# Create required directories
-echo -e "${YELLOW}Creating project structure...${NC}"
-mkdir -p docker workspace config scripts gpt-cli
+# Erstelle benötigte Verzeichnisse
+echo -e "${YELLOW}Stelle Projektstruktur sicher...${NC}"
+mkdir -p workspace config scripts docker
 
-# Install Python dependencies
-echo -e "${YELLOW}Installing Python dependencies...${NC}"
-pip3 install requests
+# Mache Skripte ausführbar
+echo -e "${YELLOW}Mache Skripte ausführbar...${NC}"
+chmod +x scripts/*.py
+chmod +x scripts/*.sh
 
-# Setup GitHub CLI
-echo -e "${YELLOW}Setting up GitHub CLI...${NC}"
-echo "Please authenticate with GitHub:"
-gh auth login
+# Richte GitHub CLI ein
+echo -e "${YELLOW}Richte GitHub CLI ein...${NC}"
+if ! gh auth status &> /dev/null; then
+    echo "Bitte authentifiziere dich bei GitHub:"
+    gh auth login
+else
+    echo "GitHub CLI bereits authentifiziert."
+fi
 
-# Configure GitHub CLI
-echo -e "${YELLOW}Configuring GitHub CLI...${NC}"
-read -p "Enter GitHub repository (e.g., All-Hands-AI/OpenHands): " github_repo
+# Konfiguriere GitHub CLI
+echo -e "${YELLOW}Konfiguriere GitHub CLI...${NC}"
+if [ -z "$GITHUB_REPOSITORY" ]; then
+    read -p "Gib das GitHub-Repository ein (z.B. benutzername/repo): " github_repo
+else
+    github_repo="$GITHUB_REPOSITORY"
+    echo "Verwende Repository aus .env: $github_repo"
+fi
 gh repo set-default "$github_repo"
 
-# Copy configuration files to ~/.config/gpt-cli
-echo -e "${YELLOW}Configuring gpt-cli...${NC}"
+# Erstelle GitHub-Token falls nötig
+if [ ! -s "config/github_token.txt" ] || grep -q "GITHUB_TOKEN" "config/github_token.txt"; then
+    echo -e "${YELLOW}Richte GitHub-Token ein...${NC}"
+    
+    if [ -n "$GITHUB_TOKEN" ]; then
+        echo "Verwende Token aus Umgebungsvariable."
+        github_token="$GITHUB_TOKEN"
+    else
+        read -p "Gib dein GitHub-Token ein (oder drücke Enter, um ein neues zu erstellen): " github_token
+        
+        if [ -z "$github_token" ]; then
+            echo "Erstelle ein neues GitHub-Token..."
+            echo "Bitte folge den Anweisungen im Browser."
+            gh auth token
+            read -p "Gib das neu erstellte Token ein: " github_token
+        fi
+    fi
+    
+    echo "$github_token" > config/github_token.txt
+    echo "GitHub-Token in config/github_token.txt gespeichert"
+fi
+
+# Konfiguriere GPT-CLI
+echo -e "${YELLOW}Konfiguriere GPT-CLI...${NC}"
 mkdir -p ~/.config/gpt-cli
-cp gpt-cli/gpt.yml ~/.config/gpt-cli/
+cp config/gpt.yml ~/.config/gpt-cli/
 
-# Make scripts executable
-echo -e "${YELLOW}Making scripts executable...${NC}"
-chmod +x scripts/test_and_report.py
-chmod +x scripts/check_pr.py
-chmod +x setup.sh
+# Installiere Python-Abhängigkeiten
+echo -e "${YELLOW}Installiere Python-Abhängigkeiten...${NC}"
+pip3 install requests
 
-# Start Docker containers
-echo -e "${YELLOW}Starting Docker containers...${NC}"
+# Prüfe, ob GPT-CLI installiert ist
+if ! command -v gpt &> /dev/null; then
+    echo -e "${YELLOW}Installiere GPT-CLI...${NC}"
+    pip3 install gpt-command-line
+fi
+
+# Starte Docker-Container
+echo -e "${YELLOW}Starte Docker-Container...${NC}"
 cd docker && docker-compose up -d
 cd ..
 
-echo -e "${GREEN}Setup completed successfully!${NC}"
+echo -e "${GREEN}Setup erfolgreich abgeschlossen!${NC}"
 echo ""
-echo "Next steps:"
-echo "1. Access OpenHands GUI at http://localhost:3000"
-echo "2. In OpenHands GUI, configure GitHub token (Settings → Git Settings)"
-echo "3. Run tests with: gpt run-tests"
-echo "4. Check PRs with: gpt check-pr <PR_NUMBER>"
+echo "Nächste Schritte:"
+echo "1. Greife auf die OpenHands GUI unter http://localhost:3000 zu"
+echo "2. In der OpenHands GUI, konfiguriere API-Schlüssel (Einstellungen → API-Schlüssel)"
+echo "3. Führe Tests aus mit: gpt run-tests --repo-path /pfad/zum/repo"
+echo "4. Überprüfe PRs mit: gpt check-pr <PR_NUMMER> --repo-path /pfad/zum/repo"
+echo "5. Behebe Issues mit: gpt fix-issue <ISSUE_NUMMER> --repo-path /pfad/zum/repo"
+echo "6. Überprüfe Fixes mit: gpt verify-fix <ISSUE_NUMMER> --repo-path /pfad/zum/repo"
 echo ""
-echo "Enjoy your automated workflow!"
+echo "Viel Spaß mit deinem automatisierten Workflow!"
 
 exit 0

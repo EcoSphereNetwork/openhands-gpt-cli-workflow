@@ -1,0 +1,3 @@
+# Replace this with your actual GitHub token
+# This file should be kept secure and not committed to version control
+${GITHUB_TOKEN}
