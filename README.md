@@ -148,6 +148,30 @@ openhands-gpt-cli-workflow/
 └── README.md                  # Main documentation
 ```
 
+### Workflow Architecture
+
+```
+[Docker Containers]                [Host System]                [GitHub]
+ +----------------+               +----------------+            +-----------+
+ | OpenHands      |<------------->| GPT-CLI        |<---------->| Issues    |
+ | GUI & CLI      |               | Test Runner    |            | PRs       |
+ +----------------+               +----------------+            +-----------+
+        ^                                ^                            ^
+        |                                |                            |
+        v                                v                            v
+ +----------------+               +----------------+            +-----------+
+ | Claude 3.7     |               | Test Suite     |            | Workflow  |
+ | Sonnet         |               | npm run test   |            | Loop      |
+ +----------------+               +----------------+            +-----------+
+        ^                                ^                            ^
+        |                                |                            |
+        v                                v                            v
+ +----------------+               +----------------+            +-----------+
+ | Dev-Server     |<------------->| Dev-Server CLI |<---------->| MCP       |
+ | Workflow       |               | Commands       |            | Servers   |
+ +----------------+               +----------------+            +-----------+
+```
+
 ## 💻 Development
 
 ### Setting Up for Development
@@ -316,29 +340,7 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 <div align="center">
 
-### Workflow Architecture
 
-```
-[Docker Containers]                [Host System]                [GitHub]
- +----------------+               +----------------+            +-----------+
- | OpenHands      |<------------->| GPT-CLI        |<---------->| Issues    |
- | GUI & CLI      |               | Test Runner    |            | PRs       |
- +----------------+               +----------------+            +-----------+
-        ^                                ^                            ^
-        |                                |                            |
-        v                                v                            v
- +----------------+               +----------------+            +-----------+
- | Claude 3.7     |               | Test Suite     |            | Workflow  |
- | Sonnet         |               | npm run test   |            | Loop      |
- +----------------+               +----------------+            +-----------+
-        ^                                ^                            ^
-        |                                |                            |
-        v                                v                            v
- +----------------+               +----------------+            +-----------+
- | Dev-Server     |<------------->| Dev-Server CLI |<---------->| MCP       |
- | Workflow       |               | Commands       |            | Servers   |
- +----------------+               +----------------+            +-----------+
-```
 
 </div>
 
