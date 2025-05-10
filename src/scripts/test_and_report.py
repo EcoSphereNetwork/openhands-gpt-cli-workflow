@@ -29,7 +29,7 @@ def create_github_issue(test_output, error_message):
 {error_message}
 ## Full Test Output
 {test_output}
-    ## Metadata
+## Metadata
 - **Label**: fix-me
 - **Priority**: high
 - **Run ID**: {time.strftime('%Y%m%d%H%M%S')}
@@ -71,7 +71,7 @@ def trigger_openhands(issue_number):
     
     try:
         response = requests.post(
-            'http://localhost:3000/api/tasks',
+            'http://localhost:17243/api/tasks',  # Aktualisierter Port
             json=payload
         )
         
